@@ -15,6 +15,7 @@ public class PlayerLogic : MonoBehaviour
     float m_movementSpeed = 5;
 
     CharacterController m_characterController;
+    private Animator m_animator;
 
     private bool m_jump = false;
     float m_jumpHeight = 0.25f;
@@ -28,6 +29,7 @@ public class PlayerLogic : MonoBehaviour
     void Start()
     {
         m_characterController = GetComponent<CharacterController>();
+        m_animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,8 +53,21 @@ public class PlayerLogic : MonoBehaviour
         }
 
         m_heightMovement.y -= m_gravity * Time.deltaTime;
-
+        
         m_movement = new Vector3(m_horizontalInput, 0, m_verticalInput) * m_movementSpeed * Time.deltaTime;
+
+        if (m_animator)
+        {
+            // Abs should be done before maxing, because we want to get -1 chosen instead of 0.
+            // So the input value would be 1 and the animation would be played also when we go backwards (s/a)
+            m_animator.SetFloat("MovementInput", Mathf.Max(Mathf.Abs(m_horizontalInput), Mathf.Abs(m_verticalInput))); 
+        }
+
+        if (m_movement != Vector3.zero) // Keep it facing the direction where he was previously moved. Do not reset it to 0.
+        {
+            transform.forward = m_movement.normalized; // Make a player face the direction where he's moving to
+        }
+
         m_characterController.Move(m_heightMovement + m_movement);
 
         if (m_characterController.isGrounded)
