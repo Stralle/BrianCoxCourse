@@ -25,7 +25,13 @@ public class PlayerLogic : MonoBehaviour
     Vector3 m_heightMovement;
 
     [SerializeField] private PlayerID m_playerID;
-    // Start is called before the first frame update
+
+    private bool m_isCastingFireball = false;
+
+    [SerializeField] private Transform m_fireballSpawn;
+
+    [SerializeField] private GameObject m_fireball;
+
     void Start()
     {
         m_characterController = GetComponent<CharacterController>();
@@ -41,6 +47,13 @@ public class PlayerLogic : MonoBehaviour
         if (Input.GetButtonDown("Jump" + m_playerID) && m_characterController && m_characterController.isGrounded)
         {
             m_jump = true;
+        }
+
+        if (Input.GetButtonDown("Fire1" + m_playerID) && m_animator)
+        {
+            m_animator.SetTrigger("CastFireball");
+            m_isCastingFireball = true;
+            // Spawn a fireball at specific point and in exact time.
         }
     }
 
@@ -63,9 +76,16 @@ public class PlayerLogic : MonoBehaviour
             m_animator.SetFloat("MovementInput", Mathf.Max(Mathf.Abs(m_horizontalInput), Mathf.Abs(m_verticalInput))); 
         }
 
+        // Rotate towards movement direction
         if (m_movement != Vector3.zero) // Keep it facing the direction where he was previously moved. Do not reset it to 0.
         {
             transform.forward = m_movement.normalized; // Make a player face the direction where he's moving to
+        }
+
+        // We don't want to move when casting a fireball.
+        if (m_isCastingFireball)
+        {
+            m_movement = Vector3.zero;
         }
 
         m_characterController.Move(m_heightMovement + m_movement);
@@ -74,5 +94,15 @@ public class PlayerLogic : MonoBehaviour
         {
             m_heightMovement.y = 0;
         }
+    }
+
+    public void SetCastingFireballState(bool isCasting)
+    {
+        m_isCastingFireball = isCasting;
+    }
+
+    public void ReleaseFireball()
+    {
+        Instantiate(m_fireball, m_fireballSpawn.transform.position, transform.rotation);
     }
 }
