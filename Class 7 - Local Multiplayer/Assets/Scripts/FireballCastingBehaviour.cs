@@ -22,7 +22,7 @@ public class FireballCastingBehaviour : StateMachineBehaviour
         PlayerLogic playerLogic = animator.GetComponent<PlayerLogic>();
         if (playerLogic)
         {
-            playerLogic.SetCastingFireballState(false);
+            playerLogic.SetCastingFireballState(false); // When we exit from this state want to set this bool to false back again so a player can move.
         }
     }
 

@@ -53,7 +53,6 @@ public class PlayerLogic : MonoBehaviour
         {
             m_animator.SetTrigger("CastFireball");
             m_isCastingFireball = true;
-            // Spawn a fireball at specific point and in exact time.
         }
     }
 
@@ -101,8 +100,10 @@ public class PlayerLogic : MonoBehaviour
         m_isCastingFireball = isCasting;
     }
 
+    // This is an event added to the fireball animation
     public void ReleaseFireball()
     {
+        // Spawn a fireball at specific point and in exact time.
         Instantiate(m_fireball, m_fireballSpawn.transform.position, transform.rotation);
     }
 }
