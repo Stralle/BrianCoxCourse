@@ -27,20 +27,31 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] private PlayerID m_playerID;
 
     private bool m_isCastingFireball = false;
+    private bool m_isDead = false;
 
     [SerializeField] private Transform m_fireballSpawn;
 
     [SerializeField] private GameObject m_fireball;
 
+    private const float MAX_RESPAWN_TIME = 2.0f;
+    private float m_respawnTimer = MAX_RESPAWN_TIME;
+
+    private Vector3 m_spawnPos;
+
     void Start()
     {
         m_characterController = GetComponent<CharacterController>();
         m_animator = GetComponent<Animator>();
+        m_spawnPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_isDead)
+        {
+            return;
+        }
         m_horizontalInput = Input.GetAxis("Horizontal" + m_playerID);
         m_verticalInput = Input.GetAxis("Vertical" + m_playerID);
 
@@ -58,6 +69,17 @@ public class PlayerLogic : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (m_isDead)
+        {
+            m_respawnTimer -= Time.deltaTime;
+            if (m_respawnTimer <= 0)
+            {
+                Respawn();
+            }
+
+            return;
+        }
+
         if (m_jump)
         {
             m_heightMovement.y = m_jumpHeight;
@@ -95,6 +117,24 @@ public class PlayerLogic : MonoBehaviour
         }
     }
 
+    private void Respawn()
+    {
+        m_isDead = false;
+        if (m_characterController)
+        {
+            m_characterController.enabled = false;
+            transform.position = m_spawnPos;
+            m_characterController.enabled = true;
+        }
+
+        m_respawnTimer = MAX_RESPAWN_TIME;
+
+        if (m_animator)
+        {
+            m_animator.SetTrigger("Respawn");
+        }
+    }
+
     public void SetCastingFireballState(bool isCasting)
     {
         m_isCastingFireball = isCasting;
@@ -105,5 +145,18 @@ public class PlayerLogic : MonoBehaviour
     {
         // Spawn a fireball at specific point and in exact time.
         Instantiate(m_fireball, m_fireballSpawn.transform.position, transform.rotation);
+    }
+
+    public void Die()
+    {
+        m_isDead = true;
+        if (m_animator)
+        {
+            m_animator.SetTrigger("Die");
+        }
+        if (m_characterController)
+        {
+            m_characterController.enabled = false;
+        }
     }
 }
