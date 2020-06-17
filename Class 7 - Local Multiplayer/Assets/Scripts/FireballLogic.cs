@@ -10,6 +10,8 @@ public class FireballLogic : MonoBehaviour
     [SerializeField] private ParticleSystem m_fireball;
     private Collider m_collider;
 
+    private float m_lifetime = 5.0f; // For better implementation, use object pool.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,11 @@ public class FireballLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        m_lifetime -= Time.deltaTime;
+        if (m_lifetime <= 0.0f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -42,10 +48,5 @@ public class FireballLogic : MonoBehaviour
             m_rigidBody.velocity = Vector3.zero;
             m_collider.enabled = false;
         }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        m_collider.enabled = true;
     }
 }

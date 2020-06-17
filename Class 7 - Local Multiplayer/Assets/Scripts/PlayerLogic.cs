@@ -38,6 +38,11 @@ public class PlayerLogic : MonoBehaviour
 
     private Vector3 m_spawnPos;
 
+    // Events
+    public delegate void PlayerDeath(int playerNum);
+
+    public static event PlayerDeath OnPlayerDeath;
+
     void Start()
     {
         m_characterController = GetComponent<CharacterController>();
@@ -158,5 +163,24 @@ public class PlayerLogic : MonoBehaviour
         {
             m_characterController.enabled = false;
         }
+
+        if (OnPlayerDeath != null)
+        {
+            OnPlayerDeath(GetPlayerNum());
+        }
+    }
+
+    int GetPlayerNum()
+    {
+        if (m_playerID == PlayerID._P1)
+        {
+            return 1;
+        }
+        else if (m_playerID == PlayerID._P2)
+        {
+            return 2;
+        }
+
+        return 0;
     }
 }
