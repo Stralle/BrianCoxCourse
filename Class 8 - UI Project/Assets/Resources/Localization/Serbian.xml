@@ -1,4 +1,5 @@
 <Localization>
+  <!-- Main menu -->
   <Entry>
     <Key>Title</Key>
     <Value>Glavni meni</Value>
@@ -14,5 +15,22 @@
   <Entry>
     <Key>Quit</Key>
     <Value>Izlaz</Value>
+  </Entry>
+  <!-- Options menu -->
+  <Entry>
+    <Key>OptionsMenu</Key>
+    <Value>Podešavanja</Value>
+  </Entry>
+  <Entry>
+    <Key>VideoOptions</Key>
+    <Value>Podešavanja slike</Value>
+  </Entry>
+  <Entry>
+    <Key>AudioOptions</Key>
+    <Value>Podešavanja zvuka</Value>
+  </Entry>
+  <Entry>
+    <Key>Back</Key>
+    <Value>Nazad</Value>
   </Entry>
 </Localization>

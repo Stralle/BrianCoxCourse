@@ -1,4 +1,5 @@
 <Localization>
+  <!-- Main menu -->
   <Entry>
     <Key>Title</Key>
     <Value>UI Main Menu</Value>
@@ -14,5 +15,22 @@
   <Entry>
     <Key>Quit</Key>
     <Value>Quit</Value>
+  </Entry>
+  <!-- Options menu -->
+  <Entry>
+    <Key>OptionsMenu</Key>
+    <Value>Options Menu</Value>
+  </Entry>
+  <Entry>
+    <Key>VideoOptions</Key>
+    <Value>Video Options</Value>
+  </Entry>
+  <Entry>
+    <Key>AudioOptions</Key>
+    <Value>Audio Options</Value>
+  </Entry>
+  <Entry>
+    <Key>Back</Key>
+    <Value>Back</Value>
   </Entry>
 </Localization>
