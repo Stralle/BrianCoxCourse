@@ -1,0 +1,18 @@
+<Localization>
+  <Entry>
+    <Key>Title</Key>
+    <Value>UI Main Menu</Value>
+  </Entry>
+  <Entry>
+    <Key>Start</Key>
+    <Value>Start</Value>
+  </Entry>
+  <Entry>
+    <Key>Options</Key>
+    <Value>Options</Value>
+  </Entry>
+  <Entry>
+    <Key>Quit</Key>
+    <Value>Quit</Value>
+  </Entry>
+</Localization>

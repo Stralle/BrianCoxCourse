@@ -1,0 +1,18 @@
+<Localization>
+  <Entry>
+    <Key>Title</Key>
+    <Value>Glavni meni</Value>
+  </Entry>
+  <Entry>
+    <Key>Start</Key>
+    <Value>Započni</Value>
+  </Entry>
+  <Entry>
+    <Key>Options</Key>
+    <Value>Podešavanja</Value>
+  </Entry>
+  <Entry>
+    <Key>Quit</Key>
+    <Value>Izlaz</Value>
+  </Entry>
+</Localization>
