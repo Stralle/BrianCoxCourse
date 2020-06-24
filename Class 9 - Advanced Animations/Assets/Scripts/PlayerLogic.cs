@@ -25,7 +25,6 @@ public class PlayerLogic : MonoBehaviour
     Transform m_rightFoot;
 
     // States
-    Vector3 m_movementInput;
     float m_horizontalInput;
     float m_verticalInput;
     Vector3 m_heightMovement;
@@ -33,6 +32,7 @@ public class PlayerLogic : MonoBehaviour
     Vector3 m_horizontalMovement;
 
     bool m_jump = false;
+    private bool m_isCrouching = false;
 
     // Components
     CharacterController m_characterController;
@@ -97,10 +97,24 @@ public class PlayerLogic : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C) && m_characterController.isGrounded)
+        {
+            m_isCrouching = !m_isCrouching;
+            if (m_animator)
+            {
+                m_animator.SetBool("IsCrouching", m_isCrouching);
+            }
+        }
+
+        if (m_isCrouching)
+        {
+            m_horizontalInput = 0;
+            m_verticalInput = 0;
+            return;
+        }
+
         m_horizontalInput = Input.GetAxis("Horizontal");
         m_verticalInput = Input.GetAxis("Vertical");
-
-        m_movementInput = new Vector3(m_horizontalInput, 0, m_verticalInput);
 
         if (Input.GetButtonDown("Jump") && m_characterController.isGrounded)
         {

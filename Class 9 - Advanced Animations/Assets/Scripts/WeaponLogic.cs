@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class WeaponLogic : MonoBehaviour
@@ -18,16 +19,19 @@ public class WeaponLogic : MonoBehaviour
     private const float K_MAX_COOLDOWN = 0.1f;
     private float m_shotCooldown = K_MAX_COOLDOWN;
 
+    private bool m_isReloading = false;
 
     private MeshRenderer m_impactBulletMeshRenderer;
     private LineRenderer m_lineRenderer;
     private AudioSource m_audioSource;
+    private Animator m_animator;
 
     // Start is called before the first frame update
     void Start()
     {
         m_lineRenderer = GetComponent<LineRenderer>();
         m_audioSource = GetComponent<AudioSource>();
+        m_animator = GetComponentInParent<Animator>(); // from a player's animator
         if (m_impactPos)
         {
             m_impactBulletMeshRenderer = m_impactPos.GetComponent<MeshRenderer>();
@@ -45,7 +49,7 @@ public class WeaponLogic : MonoBehaviour
             m_shotCooldown -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Fire1") && m_shotCooldown <= 0.0f)
+        if (Input.GetButtonDown("Fire1") && m_shotCooldown <= 0.0f && !m_isReloading)
         {
             if (m_bulletCount > 0)
             {
@@ -61,7 +65,7 @@ public class WeaponLogic : MonoBehaviour
             m_shotCooldown = K_MAX_COOLDOWN;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !m_isReloading)
         {
             Reload();
         }
@@ -100,13 +104,31 @@ public class WeaponLogic : MonoBehaviour
 
     void Shoot()
     {
+        if (m_animator)
+        {
+            m_animator.SetTrigger("Shoot");
+        }
         --m_bulletCount;
         PlaySound(m_shotSound);
     }
 
     void Reload()
     {
+        if (m_animator)
+        {
+            m_animator.SetTrigger("Reload");
+        }
+
+        m_isReloading = true;
         PlaySound(m_reloadingSound);
         m_bulletCount = K_MAX_BULLETS;
+    }
+
+    // Added so we can change this state externally.
+    // e.g. From behaviour script where we will handle OnStateExit case and will set m_isReloading to false after that animation is done.
+    // That ReloadBehaviour script is attached to reload animation.
+    public void SetReloadingState(bool state)
+    {
+        m_isReloading = state;
     }
 }
