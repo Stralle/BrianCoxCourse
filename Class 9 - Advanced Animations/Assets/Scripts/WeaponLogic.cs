@@ -131,4 +131,9 @@ public class WeaponLogic : MonoBehaviour
     {
         m_isReloading = state;
     }
+
+    public bool IsReloading()
+    {
+        return m_isReloading;
+    }
 }
