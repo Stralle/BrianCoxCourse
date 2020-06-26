@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 527698897}
   - component: {fileID: 527698896}
   m_Layer: 8
-  m_Name: Cube (2)
+  m_Name: Step
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 330dd4e6f1791984a8ade9f304bd1161, type: 2}
+  - {fileID: 2100000, guid: b05aee2c90b11fc40a600e8ec6dd8ec2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -267,7 +267,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b05aee2c90b11fc40a600e8ec6dd8ec2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -658,7 +658,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 330dd4e6f1791984a8ade9f304bd1161, type: 2}
+  - {fileID: 2100000, guid: b05aee2c90b11fc40a600e8ec6dd8ec2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -695,8 +695,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994565437}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.71, z: 6.08}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: -0.05, y: 3.5, z: 6.08}
+  m_LocalScale: {x: 13.487, y: 6.0625, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -960,6 +960,8 @@ MonoBehaviour:
   m_shotSound: {fileID: 8300000, guid: 32932a157110b8a44bf33f09bfd779f2, type: 3}
   m_emptyGunSound: {fileID: 8300000, guid: 4589d8d646c6fde4dba5d12d7b82171c, type: 3}
   m_reloadingSound: {fileID: 8300000, guid: c126dc0ea1271684d87f959012f2d5f2, type: 3}
+  m_gunShotCrack: {fileID: 8961554220101094214, guid: 3b8cfb25a432f5146b6f513adfdd9d2e,
+    type: 3}
 --- !u!120 &1691884764
 LineRenderer:
   m_ObjectHideFlags: 0

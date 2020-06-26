@@ -11,6 +11,7 @@ public class WeaponLogic : MonoBehaviour
     [SerializeField] private AudioClip m_shotSound;
     [SerializeField] private AudioClip m_emptyGunSound;
     [SerializeField] private AudioClip m_reloadingSound;
+    [SerializeField] private GameObject m_gunShotCrack;
 
 
     private const int K_MAX_BULLETS = 30;
@@ -110,6 +111,19 @@ public class WeaponLogic : MonoBehaviour
         }
         --m_bulletCount;
         PlaySound(m_shotSound);
+
+        Ray ray = new Ray(m_bulletSpawnPosition.position, m_bulletSpawnPosition.transform.forward);
+        RaycastHit rayHit;
+        if (Physics.Raycast(ray, out rayHit, 100.0f))
+        {
+            Vector3 impactPosition = rayHit.point;
+            impactPosition += rayHit.normal * 0.001f;
+
+            GameObject impactObj = Instantiate(m_gunShotCrack, impactPosition, Quaternion.identity, null); // Instantiate an object from a prefab on a position with identity rotation and without parent.
+            impactObj.transform.up = rayHit.normal; // To ensure our object is facing the right direction.
+
+            Destroy(impactObj, 5.0f);
+        }
     }
 
     void Reload()
