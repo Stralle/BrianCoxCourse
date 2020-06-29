@@ -20,6 +20,10 @@ public class ProceduralGenerationWindow : EditorWindow
 
     private string m_amountOfObjects = "1";
 
+    private GameObject m_spawnBox;
+
+    private int m_selectionIndex;
+
     [MenuItem("Tools/Spawn/Procedural Generation")]
     static void SpawnObject()
     {
@@ -29,17 +33,35 @@ public class ProceduralGenerationWindow : EditorWindow
 
     private void OnGUI()
     {
-        GUILayout.Label("Select the objects you would like to spawn.");
+        GUILayout.Label("How do you want to spawn the object(s)?");
 
+        string[] selectionOptions = { "Enter Position Coordinates", "Select Spawn Box" };
+
+        m_selectionIndex = GUILayout.SelectionGrid(m_selectionIndex, selectionOptions, selectionOptions.Length - 1);
+
+        if (m_selectionIndex == 1)
+        {
+            SetupPositionFromBox();
+            if (!m_spawnBox)
+            {
+                return;
+            }
+        }
+
+
+        GUILayout.Label("Select the objects you would like to spawn.");
         if (Selection.gameObjects.Length <= 0)
         {
             return;
         }
 
         string selectedObjectNames = GetSelectedObjectNames(Selection.gameObjects);
-        GUILayout.Label("You have selected: " + selectedObjectNames); 
+        GUILayout.Label("You have selected: " + selectedObjectNames);
 
-        SetupPosition();
+        if (m_selectionIndex == 0)
+        {
+            SetupPosition(); // We don't need this if we have a spawn box setup!
+        }
         SetupRotation();
 
         SetupAmount();
@@ -70,6 +92,52 @@ public class ProceduralGenerationWindow : EditorWindow
         }
 
         return result;
+    }
+
+    void SetupPositionFromBox()
+    {
+        GUILayout.Label("Select spawning box.");
+
+        if (!Selection.activeGameObject)
+        {
+            return;
+        }
+
+        if (GUILayout.Button("Set spawn box"))
+        {
+            m_spawnBox = Selection.activeGameObject;
+        }
+
+        if (!m_spawnBox)
+        {
+            return;
+        }
+
+        BoxCollider box = m_spawnBox.GetComponent<BoxCollider>();
+
+        if (!box)
+        {
+            m_spawnBox = null;
+            return;
+        }
+
+        m_minX = box.bounds.min.x.ToString();
+        m_maxX = box.bounds.max.x.ToString();
+
+        m_minY = box.bounds.min.y.ToString();
+        m_maxY = box.bounds.max.y.ToString();
+
+        m_minZ = box.bounds.min.z.ToString();
+        m_maxZ = box.bounds.max.z.ToString();
+
+        GUILayout.Label("Min X: " + m_minX);
+        GUILayout.Label("Max X: " + m_maxX);
+
+        GUILayout.Label("Min Y: " + m_minY);
+        GUILayout.Label("Max Y: " + m_maxY);
+
+        GUILayout.Label("Min Z: " + m_minZ);
+        GUILayout.Label("Max Z: " + m_maxZ);
     }
 
     void SetupPosition()
