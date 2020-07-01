@@ -13,6 +13,8 @@ public class CameraLogic : MonoBehaviour
     [SerializeField]
     float m_rotationY = 0.0f;
 
+    [SerializeField] private GameObject m_renderTextureCameraObject;
+
     Vector3 m_cameraTarget;
     GameObject m_player;
     const float MIN_X = -25.0f;
@@ -39,6 +41,12 @@ public class CameraLogic : MonoBehaviour
         m_distanceZOffset += Input.GetAxis("Mouse ScrollWheel");
         m_distanceZOffset = Mathf.Clamp(m_distanceZOffset, MIN_Z, MAX_Z);
         m_rotationX = Mathf.Clamp(m_rotationX, MIN_X, MAX_X);
+
+        if (m_renderTextureCameraObject)
+        {
+            m_renderTextureCameraObject.transform.rotation = Quaternion.Euler(m_rotationX, m_rotationY,
+                m_renderTextureCameraObject.transform.rotation.z);
+        }
     }
 
     private void LateUpdate()

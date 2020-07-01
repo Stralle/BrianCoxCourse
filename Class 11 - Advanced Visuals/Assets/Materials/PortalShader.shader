@@ -3,6 +3,10 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _DistortionTex("Texture", 2D) = "black" {}
+        _Speed("Speed", Float) = 1.0
+        _Intensity("Intensity", Float) = 1.0
+        _Color("Color Multiplier", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -32,6 +36,13 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            sampler2D _DistortionTex;
+            float4 _DistortionTex_ST;
+
+            float _Speed;
+            float _Intensity;
+            float4 _Color;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -40,11 +51,18 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                return col;
+                // Sample the Distortion Texture
+                float2 distortionUV = TRANSFORM_TEX(i.uv, _DistortionTex);
+                distortionUV.x = distortionUV.x + _Time.x * _Speed;
+                fixed4 distortion = tex2D(_DistortionTex, distortionUV);
+
+
+                // sample the Main Texture
+                float2 mainUV = TRANSFORM_TEX(i.uv, _MainTex);
+                fixed4 col = tex2D(_MainTex, mainUV + 0.01f * _Intensity * distortion.xy);
+                return col * _Color;
             }
             ENDCG
         }
