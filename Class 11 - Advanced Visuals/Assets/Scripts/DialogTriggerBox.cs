@@ -16,11 +16,4 @@ public class DialogTriggerBox : MonoBehaviour
         }
     }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "Player" && DialogManager.instance)
-    //    {
-    //        DialogManager.instance.DisableDialogWindow();
-    //    }
-    //}
 }
